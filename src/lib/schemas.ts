@@ -2,7 +2,7 @@ import * as z from "zod"
 
 export const patientSchema = z.object({
     fullName: z.string().min(2, "Name must be at least 2 characters"),
-    dateOfBirth: z.coerce.date(),
+    dateOfBirth: z.date(),
     phone: z.string().min(10, "Phone number must be valid"),
     address: z.string().optional(),
     emergencyContact: z.object({
