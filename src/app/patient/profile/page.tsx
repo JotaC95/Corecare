@@ -70,9 +70,7 @@ export default async function PatientProfilePage() {
             </Card>
 
             {/* Logout */}
-            <form action={async () => {
-                await logout()
-            }}>
+            <form action={logout}>
                 <Button variant="destructive" className="w-full flex items-center gap-2">
                     <LogOut className="h-4 w-4" />
                     Sign Out

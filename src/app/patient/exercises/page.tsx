@@ -45,8 +45,8 @@ export default function PatientExercisesPage() {
             <div className="space-y-4">
                 {EXERCISES.map((exercise) => (
                     <Card key={exercise.id} className={exercise.completed ? "opacity-60 bg-gray-50 dark:bg-zinc-900/50" : ""}>
-                        <CardContent className="p-4 flex items-center gap-4">
-                            <div className={`h-12 w-12 rounded-lg flex items-center justify-center ${exercise.completed
+                        <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                            <div className={`h-12 w-12 rounded-lg flex items-center justify-center shrink-0 ${exercise.completed
                                 ? "bg-green-100 text-green-600"
                                 : "bg-blue-100 text-blue-600"
                                 }`}>
@@ -68,7 +68,7 @@ export default function PatientExercisesPage() {
                                 </div>
                             </div>
                             {!exercise.completed && (
-                                <Button size="sm">Start</Button>
+                                <Button className="w-full sm:w-auto mt-2 sm:mt-0" size="sm">Start</Button>
                             )}
                         </CardContent>
                     </Card>
