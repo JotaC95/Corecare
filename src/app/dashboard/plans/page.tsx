@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Plus, Search, Filter } from "lucide-react"
+import Link from "next/link"
 import PlanCard from "@/components/dashboard/PlanCard"
 
 // Mock data
@@ -53,9 +54,11 @@ export default function PlansPage() {
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <h1 className="text-3xl font-bold tracking-tight">Treatment Plans</h1>
-                <Button className="gap-2">
-                    <Plus className="h-4 w-4" /> Create New Plan
-                </Button>
+                <Link href="/dashboard/plans/new">
+                    <Button className="gap-2">
+                        <Plus className="h-4 w-4" /> Create New Plan
+                    </Button>
+                </Link>
             </div>
 
             <div className="flex items-center gap-2">
