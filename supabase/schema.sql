@@ -103,3 +103,34 @@ alter table public.messages enable row level security;
 -- Simple policies for dev (allow read/write for authenticated users for now, refine later)
 create policy "Allow authenticated read access" on public.profiles for select using (auth.role() = 'authenticated');
 create policy "Allow individual insert/update own profile" on public.profiles for insert with check (auth.uid() = id);
+
+-- QUESTIONNAIRES
+create table public.questionnaires (
+  id uuid default uuid_generate_v4() primary key,
+  professional_id uuid references public.profiles(id) not null,
+  title text not null,
+  description text,
+  questions jsonb not null default '[]'::jsonb, -- Array of Question objects
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- RLS for Questionnaires
+alter table public.questionnaires enable row level security;
+
+create policy "Professionals can view own questionnaires" 
+  on public.questionnaires for select 
+  using (auth.uid() = professional_id);
+
+create policy "Professionals can insert own questionnaires" 
+  on public.questionnaires for insert 
+  with check (auth.uid() = professional_id);
+
+create policy "Professionals can update own questionnaires" 
+  on public.questionnaires for update 
+  using (auth.uid() = professional_id);
+
+create policy "Professionals can delete own questionnaires" 
+  on public.questionnaires for delete 
+  using (auth.uid() = professional_id);
+

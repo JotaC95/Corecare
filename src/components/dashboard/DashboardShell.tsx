@@ -26,6 +26,7 @@ export default function DashboardShell({ children, userProfile }: DashboardShell
         { name: "Schedule", href: "/dashboard/schedule", icon: Calendar },
         { name: "Patients", href: "/dashboard/patients", icon: Users },
         { name: "Plans", href: "/dashboard/plans", icon: FileText },
+        { name: "Questionnaires", href: "/dashboard/questionnaires", icon: FileText }, // Reusing FileText or use ClipboardList if available
         { name: "Consultations", href: "/dashboard/consultations", icon: Video },
         { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
     ]
@@ -73,8 +74,8 @@ export default function DashboardShell({ children, userProfile }: DashboardShell
                     <LogOut className="mr-3 h-5 w-5" />
                     Logout
                 </Button>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 
     return (
@@ -98,10 +99,10 @@ export default function DashboardShell({ children, userProfile }: DashboardShell
                             <SheetContent side="left" className="p-0 w-64 bg-white dark:bg-gray-800">
                                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                                 <SidebarContent />
-                            </SheetContent>
-                        </Sheet>
+                            </SheetContent >
+                        </Sheet >
                         <h2 className="text-lg font-medium md:hidden">Dashboard</h2>
-                    </div>
+                    </div >
 
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-gray-500 hidden md:inline-block">{userProfile?.full_name || "Doctor"}</span>
@@ -109,11 +110,11 @@ export default function DashboardShell({ children, userProfile }: DashboardShell
                             {initials}
                         </div>
                     </div>
-                </header>
-                <main className="p-6">
+                </header >
+                <main className="flex-1 overflow-auto p-4 lg:p-6">
                     {children}
                 </main>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }

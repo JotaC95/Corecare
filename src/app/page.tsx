@@ -1,22 +1,13 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ShieldCheck, Video, Calendar } from "lucide-react"
+import LandingHeader from "@/components/layout/LandingHeader"
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="px-4 lg:px-6 h-14 flex items-center border-b">
-        <Link className="flex items-center justify-center gap-2 font-bold text-xl" href="#">
-          <ShieldCheck className="h-6 w-6 text-primary" />
-          <span>Corecare</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4 flex items-center" href="/auth/login">
-            Professional Login
-          </Link>
-        </nav>
-      </header>
+      <LandingHeader />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -48,7 +39,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col items-center space-y-4 text-center">
