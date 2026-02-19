@@ -21,6 +21,11 @@ export default async function DashboardLayout({
         .eq("id", user.id)
         .single()
 
+    // Redirect patients to their own dashboard
+    if (profile?.role === "patient") {
+        redirect("/patient")
+    }
+
     return (
         <DashboardShell userProfile={profile}>
             {children}
