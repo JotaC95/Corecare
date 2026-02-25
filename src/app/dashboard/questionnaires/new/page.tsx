@@ -79,18 +79,41 @@ export default function NewQuestionnairePage() {
         }
 
         setIsLoading(true)
-        const result = await createQuestionnaire({
-            title,
-            description,
-            questions
-        })
-        setIsLoading(false)
+        try {
+            // Clean up data for server action (remove undefined, clean options)
+            const cleanQuestions = questions.map(q => {
+                const cleanQ: any = {
+                    id: q.id,
+                    text: q.text,
+                    type: q.type,
+                }
+                if (q.type === 'choice' && q.options) {
+                    cleanQ.options = q.options.filter(opt => opt.trim() !== "")
+                }
+                return cleanQ
+            })
 
-        if (result.error) {
-            toast.error(result.error)
-        } else {
-            toast.success("Questionnaire created!")
-            router.push("/dashboard/questionnaires")
+            const result = await createQuestionnaire({
+                title,
+                description,
+                questions: cleanQuestions
+            })
+
+            if (result?.error) {
+                toast.error(result.error)
+                console.error("Server Action Error:", result.error)
+            } else if (result?.success) {
+                toast.success("Questionnaire created!")
+                router.push("/dashboard/questionnaires")
+            } else {
+                toast.error("Unknown error occurred")
+                console.error("Unknown result:", result)
+            }
+        } catch (error: any) {
+            console.error("Submit Error:", error)
+            toast.error("Failed to create questionnaire: " + (error?.message || "Unknown error"))
+        } finally {
+            setIsLoading(false)
         }
     }
 

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, Send, Paperclip, MoreVertical, Pin } from "lucide-react"
+import { Search, Send, Paperclip, MoreVertical, Pin, ArrowLeft } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 // Mock Conversations
@@ -22,11 +22,12 @@ const MESSAGES = [
 
 export default function MessagesPage() {
     const [selectedConversation, setSelectedConversation] = useState(CONVERSATIONS[0])
+    const [isMobileChatOpen, setIsMobileChatOpen] = useState(false)
 
     return (
-        <div className="flex h-[calc(100vh-8rem)] border rounded-lg overflow-hidden bg-white dark:bg-gray-950">
+        <div className="flex h-[calc(100dvh-6rem)] border rounded-lg overflow-hidden bg-white dark:bg-gray-950">
             {/* Sidebar List */}
-            <div className="w-80 border-r bg-gray-50 dark:bg-gray-900 flex flex-col">
+            <div className={`${isMobileChatOpen ? 'hidden md:flex' : 'flex'} w-full md:w-80 border-r bg-gray-50 dark:bg-gray-900 flex-col`}>
                 <div className="p-4 border-b">
                     <div className="relative">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -38,7 +39,10 @@ export default function MessagesPage() {
                         <div
                             key={conv.id}
                             className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 ${selectedConversation.id === conv.id ? "bg-blue-50 dark:bg-blue-900/20" : ""}`}
-                            onClick={() => setSelectedConversation(conv)}
+                            onClick={() => {
+                                setSelectedConversation(conv)
+                                setIsMobileChatOpen(true)
+                            }}
                         >
                             <Avatar>
                                 <AvatarFallback>{conv.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
@@ -61,15 +65,24 @@ export default function MessagesPage() {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 flex flex-col">
+            <div className={`${isMobileChatOpen ? 'flex' : 'hidden md:flex'} flex-1 flex-col`}>
                 {/* Chat Header */}
-                <div className="h-16 border-b flex items-center justify-between px-6 bg-white dark:bg-gray-950">
+                <div className="h-16 border-b flex items-center justify-between px-4 sm:px-6 bg-white dark:bg-gray-950">
                     <div className="flex items-center gap-3">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="mr-1 md:hidden -ml-2 text-muted-foreground"
+                            onClick={() => setIsMobileChatOpen(false)}
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                            <span className="sr-only">Back to list</span>
+                        </Button>
                         <Avatar>
                             <AvatarFallback>{selectedConversation.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <h3 className="font-medium">{selectedConversation.name}</h3>
+                            <h3 className="font-medium truncate max-w-[150px] sm:max-w-[200px]">{selectedConversation.name}</h3>
                             <p className="text-xs text-green-600 flex items-center gap-1">
                                 <span className="h-2 w-2 rounded-full bg-green-500" /> Online
                             </p>
@@ -81,10 +94,10 @@ export default function MessagesPage() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-auto p-6 space-y-4 bg-gray-50/50 dark:bg-gray-900/50">
+                <div className="flex-1 overflow-auto p-4 sm:p-6 space-y-4 bg-gray-50/50 dark:bg-gray-900/50">
                     {MESSAGES.map((msg) => (
                         <div key={msg.id} className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}>
-                            <div className={`max-w-[70%] rounded-lg p-3 ${msg.sender === "me" ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 border"}`}>
+                            <div className={`max-w-[85%] sm:max-w-[70%] rounded-lg p-3 ${msg.sender === "me" ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 border"}`}>
                                 {msg.pinned && (
                                     <div className="flex items-center gap-1 text-[10px] opacity-70 mb-1 border-b border-white/20 pb-1">
                                         <Pin className="h-3 w-3" /> Pinned
@@ -100,7 +113,7 @@ export default function MessagesPage() {
                 </div>
 
                 {/* Input Area */}
-                <div className="p-4 bg-white dark:bg-gray-950 border-t flex items-center gap-2">
+                <div className="p-3 sm:p-4 bg-white dark:bg-gray-950 border-t flex items-center gap-2">
                     <Button variant="ghost" size="icon" className="shrink-0 text-muted-foreground">
                         <Paperclip className="h-5 w-5" />
                     </Button>
